@@ -1,0 +1,33 @@
+# Формат: домен|комментарий
+# MikroTik резолвит домены в IP при импорте.
+
+# --- Google / YouTube ---
+android.l.google.com|google
+android.googleapis.com|google
+clients.l.google.com|google
+firebaseinstallations.googleapis.com|google
+wide-youtube.l.google.com|google
+s.youtube.com|google
+i.ytimg.com|google
+youtubei.googleapis.com|google
+ytimg.com|google
+accounts.youtube.com|google
+youtube.googleapis.com|google
+jnn-pa.googleapis.com|google
+yt3.ggpht.com|google
+
+# --- Telegram ---
+telegram.org|telegram
+api.telegram.org|telegram
+core.telegram.org|telegram
+web.telegram.org|telegram
+t.me|telegram
+telegram-cdn.org|telegram
+cdn-telegram.org|telegram
+telegra.ph|telegram
+graph.org|telegram
+telesco.pe|telegram
+desktop.telegram.org|telegram
+telegram.dog|telegram
+telegram.me|telegram
+telegram.space|telegram
