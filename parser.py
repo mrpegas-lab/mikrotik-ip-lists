@@ -11,11 +11,9 @@ import requests
 #  НАСТРОЙКИ — то, что чаще всего хочется поменять
 # ============================================================
 
-LIST_NAME = "vpn-targets"          # имя общего address-list на роутере
+LIST_NAME = "vpn-targets"          # имя ЕДИНОГО address-list на роутере
 COMBINED_FILE = "vpn-targets.rsc"  # общий файл (домены + все источники + автоочистка)
-
-SOURCES_LIST = "vpn-target"       # address-list с доменами источников обновлений
-SOURCES_FILE = "vpn-sources.rsc"   # лежит в extras/, импортируется первым
+SOURCES_FILE = "sources.rsc"       # домены источников обновлений (extras/, тот же список)
 
 TIMEOUT = 30     # таймаут одного HTTP-запроса, секунд
 RETRIES = 3      # попыток на один URL
@@ -283,7 +281,7 @@ def collect_all():
 # ---------- Генерация RSC ----------
 
 def collect_source_hosts():
-    """Домены всех источников, откуда качаются списки (для vpn-sources)."""
+    """Домены всех источников, откуда качаются списки (для sources.rsc)."""
     urls = list(GOOGLE_SOURCES) + list(SOURCES) + [AWS_URL] + list(TEXT_CIDR_SOURCES)
     urls += [t.split("/as/")[0] for t in _IPVERSE_MIRRORS]
 
@@ -296,27 +294,27 @@ def collect_source_hosts():
 
 
 def write_sources():
-    """Отдельный список vpn-sources с доменами источников обновлений.
-    Импортируется ПЕРВЫМ, чтобы роутер мог скачивать списки.
-    vpn-targets.rsc его НЕ затирает. Кладётся в extras/."""
+    """Отдельный файл с доменами источников обновлений — в ТОТ ЖЕ список
+    vpn-targets (один лист = одно mangle-правило и один маршрут).
+    Те же записи входят и в общий vpn-targets.rsc, поэтому этот файл нужен
+    только при работе с раздельными файлами. Кладётся в extras/."""
     filename = os.path.join(EXTRAS_DIR, SOURCES_FILE)
     now = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
     hosts = collect_source_hosts()
 
     lines = []
-    lines.append(f"# MikroTik address-list: {SOURCES_LIST}")
+    lines.append(f"# MikroTik address-list: {LIST_NAME}")
     lines.append("# Домены источников обновлений списков")
     lines.append(f"# Generated at {now}")
     lines.append("#")
-    lines.append("# Импортируй ЭТОТ ФАЙЛ ПЕРВЫМ, до vpn-targets.rsc.")
     lines.append("# Через эти хосты скачиваются списки — они должны быть доступны")
     lines.append("# роутеру (и его DNS) всегда, иначе обновление списков отвалится.")
-    lines.append(f"# Список {SOURCES_LIST} не очищается файлом {COMBINED_FILE}.")
+    lines.append("# Эти же записи уже входят в общий vpn-targets.rsc.")
     lines.append("# Требуется рабочий DNS на роутере (см. extras/doh-google.rsc).")
     lines.append("#")
     lines.append("/ip firewall address-list")
     for host in hosts:
-        lines.append(f'add list={SOURCES_LIST} address={host} comment="source"')
+        lines.append(f'add list={LIST_NAME} address={host} comment="source"')
 
     _write_file(filename, lines)
     print(f"[+] {filename}: {len(hosts)} доменов источников")
@@ -372,6 +370,12 @@ def write_combined(prefixes_by_source, domains, failures=()):
             lines.append(f'add list={LIST_NAME} address={domain} comment="{comment}"')
     else:
         lines.append("# (нет доменов — проверь domains.txt)")
+    lines.append("")
+
+    # --- Домены источников обновлений (тот же список!) ---
+    lines.append("# --- Sources (хосты, с которых качаются списки) ---")
+    for host in collect_source_hosts():
+        lines.append(f'add list={LIST_NAME} address={host} comment="source"')
     lines.append("")
 
     # --- IP-источники ---
