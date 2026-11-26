@@ -7,7 +7,7 @@
 ## Возможности
 
 - Автоматическое получение актуальных IPv4-префиксов из внешних источников.
-- Отдельные списки для Google, Google Cloud, Telegram, Amazon AWS и OpenAI.
+- Отдельные списки для Google, Google Cloud, Telegram, Amazon AWS, AWS CloudFront, OpenAI, Meta (Facebook/Instagram/WhatsApp), Netflix, PlayStation и Apple.
 - Поддержка доменных имён для динамического наполнения `address-list` средствами RouterOS.
 - Генерация отдельных файлов по источникам и единого файла для импорта.
 - Возможность обновлять списки без ручного сбора адресов.
@@ -25,18 +25,30 @@ IP-адреса сервисов могут изменяться, а вручн�
 
 | Файл | Назначение |
 |---|---|
+| `extras/vpn-sources.rsc` | Список `vpn-sources`: домены самих источников обновлений. **Импортируется первым**, не затирается общим файлом. |
 | `output_rsc/vpn-targets.rsc` | Общий файл: домены и IP-диапазоны всех настроенных источников. Предназначен для полной замены управляемого списка. |
 | `output_rsc/google.rsc` | IP-диапазоны Google и Google Cloud. |
 | `output_rsc/telegram.rsc` | IP-диапазоны Telegram. |
-| `output_rsc/amazon.rsc` | IP-диапазоны Amazon AWS. |
+| `output_rsc/amazon.rsc` | IP-диапазоны Amazon AWS (все сервисы). |
+| `output_rsc/cloudfront.rsc` | IP-диапазоны AWS CloudFront (edge-серверы; подмножество `amazon.rsc`). |
 | `output_rsc/gptbot.rsc` | IP-диапазоны OpenAI GPTBot. |
 | `output_rsc/chatgpt.rsc` | IP-диапазоны, публикуемые для ChatGPT. |
+| `output_rsc/meta.rsc` | IP-диапазоны Meta (Facebook, Instagram, WhatsApp), включая подсети для звонков WhatsApp. |
+| `output_rsc/netflix.rsc` | IP-диапазоны Netflix. |
+| `output_rsc/playstation.rsc` | IP-диапазоны Sony Interactive Entertainment (PlayStation Network). |
+| `output_rsc/apple.rsc` | IP-диапазоны Apple. |
 | `output_rsc/domains.rsc` | Только доменные имена из `domains.txt`. |
 | `extras/doh-google.rsc` | Дополнительная настройка Google DNS over HTTPS для совместимых версий RouterOS. |
 | `parser.py` | Python-скрипт для получения данных и генерации `.rsc`. |
 | `domains.txt` | Список доменов, используемый при формировании доменных и общих списков. |
 
 ## Какой файл использовать
+
+### Шаг 0. Список источников обновлений
+
+Сначала импортируйте `extras/vpn-sources.rsc`.
+
+Он создаёт отдельный список `vpn-sources` с доменами, через которые скачиваются обновления (Google, AWS, OpenAI, Telegram, GitHub и его CDN-зеркала). Эти хосты должны быть доступны роутеру всегда — иначе механизм обновления списков перестанет работать. Файл `vpn-targets.rsc` этот список **не очищает**. Требуется рабочий DNS на роутере (см. `extras/doh-google.rsc`).
 
 ### Вариант 1. Импортировать всё сразу
 
@@ -95,14 +107,23 @@ python parser.py
 
 ## Источники данных
 
-Проект использует опубликованные диапазоны и данные следующих сервисов:
+Проект использует опубликованные диапазоны и данные следующих сервисов.
+
+Официальные источники:
 
 - **Google** — `https://www.gstatic.com/ipranges/goog.json`
 - **Google Cloud** — `https://www.gstatic.com/ipranges/cloud.json`
-- **Amazon AWS** — `https://ip-ranges.amazonaws.com/ip-ranges.json`
+- **Amazon AWS и AWS CloudFront** — `https://ip-ranges.amazonaws.com/ip-ranges.json` (CloudFront выделяется по полю `service=CLOUDFRONT`)
 - **OpenAI GPTBot** — `https://openai.com/gptbot.json`
 - **OpenAI ChatGPT** — `https://openai.com/chatgpt-user.json`
-- **Telegram** — источник диапазонов, настроенный в генераторе.
+- **Telegram** — `https://core.telegram.org/resources/cidr.txt`
+
+Агрегированные BGP-префиксы по автономным системам (данные [ipverse/as-ip-blocks](https://github.com/ipverse/as-ip-blocks), обновляются ежедневно; у этих сервисов нет официальных списков):
+
+- **Apple** — AS714
+- **Netflix** — AS2906, AS40027, AS55095
+- **PlayStation** — AS33353 (Sony Interactive Entertainment)
+- **Meta (Facebook, Instagram, WhatsApp)** — AS32934, AS63293
 
 Состав и формат опубликованных данных могут изменяться. Актуальность итоговых списков зависит от доступности источников и успешного выполнения генератора.
 
@@ -114,4 +135,3 @@ python parser.py
 - Списки IP и доменов не заменяют правила маршрутизации, NAT или настройки firewall.
 - Для работы с доменами необходим корректно настроенный DNS на RouterOS.
 - Конфигурацию Google DoH следует применять отдельно и только после проверки совместимости с используемой версией RouterOS.
-- 

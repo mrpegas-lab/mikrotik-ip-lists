@@ -1,0 +1,47 @@
+# MikroTik address-list: vpn-targets
+# Source: netflix
+# Generated at 2026-11-26 08:25 UTC
+#
+# This file does NOT remove old entries.
+# To clean up: /ip firewall address-list remove [find list=vpn-targets]
+#
+/ip firewall address-list
+add list=vpn-targets address=9.187.0.0/16 comment="netflix"
+add list=vpn-targets address=9.188.0.0/16 comment="netflix"
+add list=vpn-targets address=23.246.0.0/18 comment="netflix"
+add list=vpn-targets address=37.77.184.0/21 comment="netflix"
+add list=vpn-targets address=45.57.0.0/17 comment="netflix"
+add list=vpn-targets address=45.57.8.0/23 comment="netflix"
+add list=vpn-targets address=45.57.40.0/23 comment="netflix"
+add list=vpn-targets address=45.57.44.0/23 comment="netflix"
+add list=vpn-targets address=45.57.86.0/23 comment="netflix"
+add list=vpn-targets address=45.57.90.0/23 comment="netflix"
+add list=vpn-targets address=64.120.128.0/17 comment="netflix"
+add list=vpn-targets address=66.197.128.0/17 comment="netflix"
+add list=vpn-targets address=69.53.224.0/19 comment="netflix"
+add list=vpn-targets address=69.53.226.0/24 comment="netflix"
+add list=vpn-targets address=69.53.228.0/24 comment="netflix"
+add list=vpn-targets address=69.53.247.0/24 comment="netflix"
+add list=vpn-targets address=69.53.248.0/23 comment="netflix"
+add list=vpn-targets address=108.175.32.0/20 comment="netflix"
+add list=vpn-targets address=185.2.220.0/22 comment="netflix"
+add list=vpn-targets address=185.9.188.0/22 comment="netflix"
+add list=vpn-targets address=192.173.64.0/18 comment="netflix"
+add list=vpn-targets address=192.173.65.0/24 comment="netflix"
+add list=vpn-targets address=192.173.80.0/24 comment="netflix"
+add list=vpn-targets address=192.173.83.0/24 comment="netflix"
+add list=vpn-targets address=192.173.84.0/24 comment="netflix"
+add list=vpn-targets address=192.173.88.0/23 comment="netflix"
+add list=vpn-targets address=192.173.95.0/24 comment="netflix"
+add list=vpn-targets address=192.173.98.0/23 comment="netflix"
+add list=vpn-targets address=192.173.100.0/23 comment="netflix"
+add list=vpn-targets address=192.173.102.0/24 comment="netflix"
+add list=vpn-targets address=192.173.105.0/24 comment="netflix"
+add list=vpn-targets address=192.173.108.0/23 comment="netflix"
+add list=vpn-targets address=192.173.111.0/24 comment="netflix"
+add list=vpn-targets address=192.173.112.0/23 comment="netflix"
+add list=vpn-targets address=192.173.114.0/24 comment="netflix"
+add list=vpn-targets address=198.38.96.0/19 comment="netflix"
+add list=vpn-targets address=198.45.48.0/20 comment="netflix"
+add list=vpn-targets address=207.45.72.0/22 comment="netflix"
+add list=vpn-targets address=208.75.76.0/22 comment="netflix"

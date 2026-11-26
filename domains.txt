@@ -31,3 +31,77 @@ desktop.telegram.org|telegram
 telegram.dog|telegram
 telegram.me|telegram
 telegram.space|telegram
+
+# --- Meta (Facebook / Instagram / WhatsApp) ---
+facebook.com|meta
+www.facebook.com|meta
+instagram.com|meta
+www.instagram.com|meta
+fbcdn.net|meta
+cdninstagram.com|meta
+# WhatsApp: мессенджер + звонки (g — регистрация/signal, v — голос,
+# dit — relay-дискавери звонков, mmg — медиа, pps — presence)
+whatsapp.com|meta
+www.whatsapp.com|meta
+web.whatsapp.com|meta
+whatsapp.net|meta
+g.whatsapp.net|meta
+v.whatsapp.net|meta
+dit.whatsapp.net|meta
+mmg.whatsapp.net|meta
+pps.whatsapp.net|meta
+static.whatsapp.net|meta
+wa.me|meta
+# mms.whatsapp.net / cdn.whatsapp.net — апексы без A-записей, не добавляем.
+
+# --- Netflix ---
+netflix.com|netflix
+www.netflix.com|netflix
+api.netflix.com|netflix
+netflix.net|netflix
+nflxext.com|netflix
+nflximg.com|netflix
+nflxvideo.net|netflix
+nflxsearch.net|netflix
+# nflxso.net / nflximg.net — апексы без A-записей; реальные хосты
+# Open Connect (occ-*.nflxso.net) уникальны для каждого провайдера.
+
+# --- PlayStation ---
+playstation.com|playstation
+www.playstation.com|playstation
+store.playstation.com|playstation
+playstationnetwork.com|playstation
+sonyentertainmentnetwork.com|playstation
+image.api.playstation.com|playstation
+asm.np.community.playstation.net|playstation
+remoteplay.dl.playstation.net|playstation
+# playstation.net — апекс без A-записи, поэтому выше конкретные хосты.
+
+# --- Apple ---
+apple.com|apple
+www.apple.com|apple
+images.apple.com|apple
+swcdn.apple.com|apple
+gsa.apple.com|apple
+itunes.apple.com|apple
+apps.apple.com|apple
+ocsp.apple.com|apple
+courier.push.apple.com|apple
+icloud.com|apple
+www.icloud.com|apple
+gateway.icloud.com|apple
+mzstatic.com|apple
+is1-ssl.mzstatic.com|apple
+itunes.com|apple
+
+# --- Kinopub (плейлист для MicroIPTV) ---
+kinopub.me|kinopub
+kinopub.net|kinopub
+kinopub.online|kinopub
+# Домены Kinopub часто ротируются — MikroTik перерезолвит по TTL.
+# kino.pub делегирован, но A-записей сейчас нет; kinopub.tv/org мертвы.
+
+# --- Trakt.tv (трекинг просмотров / scrobbling) ---
+trakt.tv|trakt
+api.trakt.tv|trakt
+# api-v2launch.trakt.tv и walter.trakt.tv сейчас не резолвятся.

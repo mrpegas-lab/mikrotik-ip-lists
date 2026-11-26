@@ -1,6 +1,6 @@
 # MikroTik address-list: vpn-targets
 # Source: telegram
-# Generated at 2026-10-10 15:48 UTC
+# Generated at 2026-11-26 08:25 UTC
 #
 # This file does NOT remove old entries.
 # To clean up: /ip firewall address-list remove [find list=vpn-targets]
